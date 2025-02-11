@@ -10,6 +10,8 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        mainRed: 'rgb(160, 0, 0, 0.8)',
+        footerBg: 'rgb(0, 0, 0, 0.5)',
       },
     },
   },
