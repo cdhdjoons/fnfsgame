@@ -13,7 +13,7 @@ export default function LeaderBoard() {
     ]
     return (
         <div className=" w-full h-full">
-            <div className=" w-full h-full max-w-[500px] pt-3 relative flex flex-col justify-stretch items-center bg-cover bg-no-repeat " >
+            <div className=" w-full h-full max-w-[500px] pt-3 relative flex flex-col justify-evenly items-center bg-cover bg-no-repeat " >
                 <div className="w-full h-[15%] bg-no-repeat bg-cover absolute top-0 " style={{ backgroundImage: `url(/image/side_bg.png)` }}></div>
                 <div className="w-[65vmax] sm:w-[52vmin] rotate-[-18deg] aspect-[431/129] bg-no-repeat flex justify-start absolute top-[43%] " style={{ backgroundImage: `url(/image/thunder.png)` }}></div>
                 <div className="w-[32vmax] max-w-[260px] aspect-[260/42] relative ">

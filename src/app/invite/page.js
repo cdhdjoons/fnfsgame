@@ -20,7 +20,7 @@ export default function Invite() {
     };
     return (
         <div className=" w-full h-full">
-            <div className=" w-full h-full max-w-[500px] pt-3 relative flex flex-col justify-stretch items-center bg-cover bg-no-repeat " >
+            <div className=" w-full h-full max-w-[500px] pt-3 relative flex flex-col justify-evenly items-center bg-cover bg-no-repeat " >
                 <div className="w-full h-[15%] bg-no-repeat bg-cover absolute top-0 " style={{ backgroundImage: `url(/image/side_bg.png)` }}></div>
                 {copied? <p className=" absolute bottom-[4%] z-50 bg-slate-300 rounded-3xl px-4 text-black text-[7vmin] sm:text-[2.5vmin] transition-transform ">Copy Complete!</p> : ''}
                 <div className="w-[32vmax] max-w-[276px] aspect-[276/45] relative ">
