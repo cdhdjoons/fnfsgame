@@ -1,5 +1,6 @@
 import Image from "next/image";
 import '../../../styles/leaderboard.css';
+import { franklinGothic } from "../../../styles/fonts";
 
 
 export default function LeaderBoard() {
@@ -13,16 +14,18 @@ export default function LeaderBoard() {
     ]
     return (
         <div className=" w-full h-full">
-            <div className=" w-full h-full max-w-[500px] pt-3 relative flex flex-col justify-evenly items-center bg-cover bg-no-repeat " >
+            <div className=" w-full h-full max-w-[500px] pt-1 relative flex flex-col justify-evenly items-center bg-cover bg-no-repeat " >
                 <div className="w-full h-[15%] bg-no-repeat bg-cover absolute top-0 " style={{ backgroundImage: `url(/image/side_bg.png)` }}></div>
                 <div className="w-[65vmax] sm:w-[52vmin] rotate-[-18deg] aspect-[431/129] bg-no-repeat flex justify-start absolute top-[43%] " style={{ backgroundImage: `url(/image/thunder.png)` }}></div>
-                <div className="w-[32vmax] max-w-[260px] aspect-[260/42] relative ">
-                    <Image
+                <div className={` w-[32vmax] max-w-[500px] aspect-[260/42] relative ${franklinGothic.variable} font-franklin`}>
+                    {/* <Image
                         src="/image/leaderboard_title.png"
                         alt="main logo"
                         layout="fill"
                         objectFit="cover"
-                    />
+                    /> */}
+                    <p className="w-full text-center text-[5vmax] sm:text-[6vmin] -rotate-2
+        bg-gradient-to-r from-[#F92F2F] via-[#FEA5A5] to-[#EB1515] bg-clip-text text-transparent [-webkit-text-stroke:1px_black] ">Leaderboard</p>
                 </div>
                 <div className=" w-full flex flex-col items-center py-[3vmin] ">
                     <div className="w-[79vmin] sm:w-[23vmax] aspect-[317/70] relative active:scale-90 transition-transform duration-200">

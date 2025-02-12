@@ -74,7 +74,7 @@ export default function ClaimTimer() {
                         layout="fill"
                         objectFit="cover"
                     />
-                    <p className=" absolute top-[-20px] right-0 text-white text-[2.2vmax] sm:text-[1.5vmax] [-webkit-text-stroke:1.5px_black]">{formatTime(time)}</p>
+                    <p className=" absolute top-[-20px] right-0 text-white text-[2.2vmax] sm:text-[1.3vmax] [-webkit-text-stroke:1.5px_black]">{formatTime(time)}</p>
                 </div>
             </div>
             <div className="w-full flex justify-center items-center relative">
@@ -86,13 +86,13 @@ export default function ClaimTimer() {
                             layout="fill"
                             objectFit="cover"
                         />
-                        <p className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-[3.5vmax] sm:text-[2.8vmax]
+                        <p className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-[3.5vmax] sm:text-[2.2vmax]
              [-webkit-text-stroke:2px_black]">000000</p>
                     </div>
                 </Link>
             </div>
             {onClaim ? <div onClick={startTimer} className="w-full flex justify-center items-center relative ">
-                <div className="w-[30vmax] max-w-[297px] aspect-[297/79] relative">
+                <div className="w-[30vmax] sm:w-[20vmax] aspect-[297/79] relative">
                     <Image
                         src="/image/claimIcon.png"
                         alt="main logo"
@@ -101,9 +101,9 @@ export default function ClaimTimer() {
                     />
                 </div>
             </div> : <div className="w-full flex justify-center items-center relative ">
-                <div className="w-[30vmax] max-w-[297px] aspect-[297/79] relative">
+                <div className="w-[30vmax] sm:w-[20vmax] aspect-[297/79] relative">
                     <Image
-                        src="/image/claimOVerIcon.png"
+                        src="/image/claimover.png"
                         alt="main logo"
                         layout="fill"
                         objectFit="cover"

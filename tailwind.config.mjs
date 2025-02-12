@@ -13,6 +13,9 @@ export default {
         mainRed: 'rgb(160, 0, 0, 0.8)',
         footerBg: 'rgb(0, 0, 0, 0.5)',
       },
+      fontFamily: {
+        franklin: ["var(--font-franklin-gothic)", "sans-serif"],
+      },
     },
   },
   plugins: [],
