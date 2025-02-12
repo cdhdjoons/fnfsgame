@@ -25,14 +25,16 @@ export default function Footer() {
                         />
                     </div>
                 </Link>
-                <div className="w-[70px] h-[70px] relative active:scale-90 transition-transform duration-200">
-                    <Image
-                        src="/image/menu-game.png"
-                        alt="meatIcon"
-                        layout="fill"
-                        objectFit="cover"
-                    />
-                </div>
+                <Link href="/games">
+                    <div className="w-[70px] h-[70px] relative active:scale-90 transition-transform duration-200">
+                        <Image
+                            src="/image/menu-game.png"
+                            alt="meatIcon"
+                            layout="fill"
+                            objectFit="cover"
+                        />
+                    </div>
+                </Link>
                 <Link href="/invite">
                     <div className="w-[60px] h-[61px] relative active:scale-90 transition-transform duration-200">
                         <Image
