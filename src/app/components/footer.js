@@ -10,8 +10,8 @@ export default function Footer() {
                         <Image
                             src="/image/menu-task.png"
                             alt="meatIcon"
-                            layout="fill"
-                            objectFit="cover"
+                            width={60}  // 이미지의 가로 크기 지정
+                            height={61}  // 이미지의 세로 크기 지정
                         />
                     </div>
                 </Link>
@@ -20,8 +20,8 @@ export default function Footer() {
                         <Image
                             src="/image/menu-home.png"
                             alt="meatIcon"
-                            layout="fill"
-                            objectFit="cover"
+                            width={60}  // 이미지의 가로 크기 지정
+                            height={61}  // 이미지의 세로 크기 지정
                         />
                     </div>
                 </Link>
@@ -30,8 +30,8 @@ export default function Footer() {
                         <Image
                             src="/image/menu-game.png"
                             alt="meatIcon"
-                            layout="fill"
-                            objectFit="cover"
+                            width={70}  // 이미지의 가로 크기 지정
+                            height={70}  // 이미지의 세로 크기 지정
                         />
                     </div>
                 </Link>
@@ -40,8 +40,8 @@ export default function Footer() {
                         <Image
                             src="/image/menu-invite.png"
                             alt="meatIcon"
-                            layout="fill"
-                            objectFit="cover"
+                            width={60}  // 이미지의 가로 크기 지정
+                            height={61}  // 이미지의 세로 크기 지정
                         />
                     </div>
                 </Link>
@@ -50,8 +50,8 @@ export default function Footer() {
                         <Image
                             src="/image/menu-rank.png"
                             alt="meatIcon"
-                            layout="fill"
-                            objectFit="cover"
+                            width={60}  // 이미지의 가로 크기 지정
+                            height={61}  // 이미지의 세로 크기 지정
                         />
                     </div>
                 </Link>

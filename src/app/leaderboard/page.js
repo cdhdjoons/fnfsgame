@@ -1,6 +1,8 @@
+'use client'
 import Image from "next/image";
 import '../../../styles/leaderboard.css';
 import { franklinGothic } from "../../../styles/fonts";
+import { useEffect, useState } from "react";
 
 
 export default function LeaderBoard() {
@@ -12,6 +14,41 @@ export default function LeaderBoard() {
         { name: "ranker005", n2o: '3.7k' },
         { name: "ranker006", n2o: '3.4k' }
     ]
+    const [n2o, setN2O] = useState(0);
+    const [teleId, setTeleId] = useState('unknown')
+
+    useEffect(() => {
+        // 초기 n2o 값 불러오기
+        const storedN2O = localStorage.getItem("n2o");
+        if (storedN2O) {
+            setN2O(Number(storedN2O));
+        }
+    }, []);
+
+    useEffect(() => {
+        // window.Telegram가 정상적으로 로드되었는지 확인
+        const checkTelegramSDK = () => {
+            if (typeof window !== 'undefined' && window.Telegram) {
+                console.log('Telegram SDK Loaded:', window.Telegram); // 정상적으로 SDK 객체 확인
+                // initData에서 사용자 ID 추출
+                const initData = window.Telegram.WebApp.initData;
+
+                if (initData) {
+                    const userData = JSON.parse(initData);
+                    const userId = userData.user.id; // 사용자 ID 추출
+                    setTeleId(userId); // 상태에 저장
+                    console.log('User ID:', userId);
+                }
+            } else {
+                console.log('Telegram SDK is not loaded');
+            }
+        };
+
+        // 딜레이를 주어 SDK가 로드된 후에 확인
+        setTimeout(checkTelegramSDK, 1000); // 1초 후에 Telegram SDK 확인
+
+    }, []);
+
     return (
         <div className=" w-full h-full">
             <div className=" w-full h-full max-w-[500px] pt-1 relative flex flex-col justify-evenly items-center bg-cover bg-no-repeat " >
@@ -35,9 +72,9 @@ export default function LeaderBoard() {
                             layout="fill"
                             objectFit="cover"
                         />
-                        <p className=" absolute left-1/3 -translate-x-1/2 top-1/2 -translate-y-1/2 text-black text-[6vmin] sm:text-[2.5vmin]">My ID</p>
+                        <p className=" absolute left-1/3 -translate-x-1/2 top-1/2 -translate-y-1/2 text-black text-[6vmin] sm:text-[2.5vmin]">{teleId}</p>
                         <p className=" absolute right-2 top-1/2 -translate-y-1/2 text-black text-[5vmin] sm:text-[2.5vmin]">716</p>
-                        <p className=" absolute bottom-2 right-1/3 translate-x-1/2 text-black text-[5vmin] sm:text-[1.8vmin]">1.0k</p>
+                        <p className=" absolute bottom-2 right-1/3 translate-x-1/2 text-black text-[5vmin] sm:text-[1.8vmin]">{n2o}</p>
                     </div>
                 </div>
                 <p className=" text-white text-[12vmin] sm:text-[5vmin] z-10 [-webkit-text-stroke:1.3px_black]">145.1k Holders</p>

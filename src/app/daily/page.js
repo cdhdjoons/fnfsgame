@@ -5,7 +5,7 @@ import { franklinGothic } from "../../../styles/fonts";
 export default function DailyTask() {
     return (
         <div className={`${franklinGothic.variable} font-franklin w-full h-full`}>
-            <div className=" w-full h-full max-w-[500px] relative flex flex-col justify-stretch items-center bg-cover bg-no-repeat " >
+            <div className=" w-full h-full max-w-[500px] relative flex flex-col justify-evenly items-center bg-cover bg-no-repeat " >
                 <div className="w-full h-[15%] bg-cover bg-no-repeat flex justify-center absolute top-0 " style={{ backgroundImage: `url(/image/side_bg.png)` }}></div>
                 <div className={` w-[30vmax] max-w-[500px] relative `} >
                     {/* <Image

@@ -11,8 +11,8 @@ export default function Home() {
             <Image
               src="/image/fnfsLogo.png"
               alt="main logo"
-              layout="fill"
-              objectFit="cover"
+              fill
+              style={{ objectFit: "cover" }}
             />
           </div>
         </div>
@@ -21,8 +21,8 @@ export default function Home() {
             <Image
               src="/image/joinbtn.png"
               alt="main logo"
-              layout="fill"
-              objectFit="cover"
+              fill
+              style={{ objectFit: "cover" }}
             />
           </div>
         </div>
