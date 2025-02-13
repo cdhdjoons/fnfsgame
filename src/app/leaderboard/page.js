@@ -26,28 +26,20 @@ export default function LeaderBoard() {
     }, []);
 
     useEffect(() => {
-        // window.Telegram가 정상적으로 로드되었는지 확인
         const checkTelegramSDK = () => {
-            if (typeof window !== 'undefined' && window.Telegram) {
-                console.log('Telegram SDK Loaded:', window.Telegram); // 정상적으로 SDK 객체 확인
-                // initData에서 사용자 ID 추출
-                const initData = window.Telegram.WebApp.initData;
-
-                if (initData) {
-                    const userData = JSON.parse(initData);
-                    const userId = userData.user.id; // 사용자 ID 추출
-                    setTeleId(userId); // 상태에 저장
-                    console.log('User ID:', userId);
-                }
-            } else {
-                console.log('Telegram SDK is not loaded');
+          if (typeof window !== 'undefined' && window.Telegram) {
+            const user = window.Telegram.WebApp.initDataUnsafe;
+            if (user) {
+              console.log('Telegram User:', user);
+              setTeleId(user.id);
             }
+          } else {
+            setTimeout(checkTelegramSDK, 1000); // 1초 후 다시 확인
+          }
         };
-
-        // 딜레이를 주어 SDK가 로드된 후에 확인
-        setTimeout(checkTelegramSDK, 1000); // 1초 후에 Telegram SDK 확인
-
-    }, []);
+    
+        checkTelegramSDK(); // 초기 실행
+      }, []);
 
     return (
         <div className=" w-full h-full">
