@@ -3,14 +3,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function ClaimTimer() {
-    const [time, setTime] = useState(10); // 10초 타이머
+    const TIMER_DURATION = 21600; // 6 hours in seconds
+    
+    const [time, setTime] = useState(TIMER_DURATION); // 10초 타이머
     const [onClaim, setOnClaim] = useState(true);
     const [n2o, setN2O] = useState(0);
     const timerRef = useRef(null);
     const hasFinished = useRef(false);
-    
+
+
 
     useEffect(() => {
         // localStorage에서 시작 시간 불러오기
@@ -18,30 +22,33 @@ export default function ClaimTimer() {
 
         if (storedStartTime) {
             const elapsedTime = Math.floor((Date.now() - Number(storedStartTime)) / 1000);
-            const remainingTime = Math.max(10 - elapsedTime, 0);
+            const remainingTime = Math.max(TIMER_DURATION - elapsedTime, 0);
 
             if (remainingTime > 0) {
                 setTime(remainingTime);
                 setOnClaim(false);
-                startTimer(remainingTime); // 남은 시간만큼 타이머 시작
+                startInterval(remainingTime);
             } else {
                 localStorage.removeItem("timerStartTime"); //시간 지나면 초기화
+                setOnClaim(true);
             }
         }
 
-         // 초기 n2o 값 불러오기
-         const storedN2O = localStorage.getItem("n2o");
-         if (storedN2O) {
-             setN2O(Number(storedN2O));
-         }
+        // 초기 n2o 값 불러오기
+        const storedN2O = localStorage.getItem("n2o");
+        if (storedN2O) {
+            setN2O(Number(storedN2O));
+        }
+
+        // Cleanup interval on unmount
+        return () => {
+            if (timerRef.current) {
+                clearInterval(timerRef.current);
+            }
+        };
     }, []);
 
-    const startTimer = (initialTime = 10) => {
-        const safeTime = Number(initialTime) || 10; // 🔥 NaN 방지
-        setOnClaim(false);
-        setTime(safeTime - 1);        
-        localStorage.setItem("timerStartTime", Date.now().toString());
-
+    const startInterval = (initialTime) => {
         if (timerRef.current) {
             clearInterval(timerRef.current);
         }
@@ -51,16 +58,24 @@ export default function ClaimTimer() {
                 if (prev <= 1) {
                     clearInterval(timerRef.current);
                     setOnClaim(true);
-                    localStorage.removeItem("timerStartTime"); // 🔥 타이머 종료 시 localStorage 초기화
-                    if (!hasFinished.current) {  // 타이머 종료 후 한 번만 실행
-                        handleN2O();  // N2O 값 갱신
-                        hasFinished.current = true; // 종료 여부 상태 설정
+                    localStorage.removeItem("timerStartTime");
+                    if (!hasFinished.current) {
+                        handleN2O();
+                        hasFinished.current = true;
                     }
-                    return 10; // 🔥 10초로 리셋
+                    return 0; // Return 0 instead of 10
                 }
                 return prev - 1;
             });
         }, 1000);
+    };
+
+    const startTimer = () => {
+        setOnClaim(false);
+        setTime(TIMER_DURATION);
+        hasFinished.current = false;
+        localStorage.setItem("timerStartTime", Date.now().toString());
+        startInterval(TIMER_DURATION);
     };
 
     const handleN2O = () => {
@@ -68,57 +83,72 @@ export default function ClaimTimer() {
         const newN2O = (Number(currentN2O) || 0) + 1000; // 🔥 기존 값에 1000 더함
         localStorage.setItem("n2o", newN2O); // 🔥 업데이트된 값 저장
         setN2O(newN2O); // 🔥 상태 업데이트
-        console.log("새로운 n2o 값:", newN2O); // 🔥 새로 저장된 n2o 값 확인
+        
     };
 
 
     // 초를 "00:00:XX" 형식으로 변환
+    // const formatTime = (seconds) => {
+    //     const min = Math.floor(seconds / 60);
+    //     const sec = seconds % 60;
+    //     return `00:${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+    // };
     const formatTime = (seconds) => {
-        const min = Math.floor(seconds / 60);
-        const sec = seconds % 60;
-        return `00:${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-    };
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = seconds % 60;
+        
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+      };
+    
 
     // 프로그레스 바 너비 계산 (0% ~ 100%)
-    const progressWidth = `${((11 - time) / 10) * 100}%`;
+    // const progressWidth = `${((10 - time) / 10) * 100}%`;
+    const progressWidth = onClaim ? '0%' : `${((TIMER_DURATION - time) / TIMER_DURATION) * 100}%`;
 
     // 시간에 따른 색상 변화 (rgba 값으로)
     const progressColor = `rgba(245, 133, 47, 0.4)`; // 초록색에서 투명도로 변화
 
     return (
-        <div className=" flex flex-col gap-[3vmax]">
+        <AnimatePresence mode="wait">
+            <motion.div className=" flex flex-col gap-[3vmax]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+            >
 
-            <div className="w-full flex justify-center items-center relative">
-                <div className="w-[30vmax] max-w-[272px] aspect-[272/47] relative">
-                    <div className=" absolute w-[30%] -top-1/2 translate-y-[8%] -left-1/4 translate-x-1/2 aspect-[65/68] z-20 ">
+                <div className="w-full flex justify-center items-center relative">
+                    <div className="w-[30vmax] max-w-[272px] aspect-[272/47] relative">
+                        <div className=" absolute w-[30%] -top-1/2 translate-y-[8%] -left-1/4 translate-x-1/2 aspect-[65/68] z-20 ">
+                            <Image
+                                src="/image/n2o_Icon.png"
+                                alt="main logo"
+                                fill
+                                style={{ objectFit: "cover" }}
+                            />
+                        </div>
+                        <div className=" aspect-[272/47] absolute left-0 h-full bg-cover bg-no-repeat w-full opacity-55 transition-all duration-1000 z-10  "
+                            style={{
+                                width: progressWidth,
+                                backgroundImage: `url(/image/orangeBar.png)`
+                            }}>
+
+                        </div>
                         <Image
-                            src="/image/n2o_Icon.png"
+                            src="/image/progressBar.png"
                             alt="main logo"
                             fill
                             style={{ objectFit: "cover" }}
                         />
-                    </div>
-                    <div className=" aspect-[272/47] absolute left-0 h-full bg-cover bg-no-repeat w-full opacity-55 transition-all duration-1000 z-10  " 
-                    style={{
-                        width: progressWidth,
-                        backgroundImage: `url(/image/orangeBar.png)`
-                      }}>
-                    
-                    </div>
-                    <Image
-                        src="/image/progressBar.png"
-                        alt="main logo"
-                        fill
-                        style={{ objectFit: "cover" }}
-                    />
-                    <p className=" absolute top-[-20px] right-0 text-white text-[2.2vmax] sm:text-[1.3vmax] [-webkit-text-stroke:1.5px_black]">{formatTime(time)}</p>
-                    <p className=" z-50 absolute w-full text-center top-1/2 -translate-y-1/2 text-white text-[1.8vmax] sm:text-[1.5vmin] [-webkit-text-stroke:1px_black]">Farming 1000 N2O</p>
+                        <p className=" absolute top-[-20px] right-0 text-white text-[2.2vmax] sm:text-[1.3vmax] [-webkit-text-stroke:1.5px_black]">{formatTime(time)}</p>
+                        <p className=" z-50 absolute w-full text-center top-1/2 -translate-y-1/2 text-white text-[1.8vmax] sm:text-[1.5vmin] [-webkit-text-stroke:1px_black]">Farming 1000 N2O</p>
 
+                    </div>
                 </div>
-            </div>
-            <div className="w-full flex justify-center items-center relative">
-                <Link href="/balance">
-                    <div className="w-[30vmax] max-w-[235px] aspect-[235/235] relative active:scale-90 transition-transform duration-200">
+                <div className="w-full flex justify-center items-center relative">
+
+                    <div className="w-[28vmax] max-w-[235px] aspect-[235/235] relative">
                         <Image
                             src="/image/balancebtn.png"
                             alt="main logo"
@@ -126,31 +156,53 @@ export default function ClaimTimer() {
                             style={{ objectFit: "cover" }}
                         />
                         <p className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-[3.5vmax] sm:text-[2.2vmax]
-             [-webkit-text-stroke:2px_black]">{n2o}</p>
+             [-webkit-text-stroke:2px_black]">{n2o >= 1000000 ? `${n2o / 1000000}m` : n2o >= 1000 ? `${n2o / 1000}k` : n2o}</p>
                     </div>
-                </Link>
-            </div>
-            {onClaim ? <div onClick={startTimer} className="w-full flex justify-center items-center relative ">
-                <div className="w-[30vmax] sm:w-[20vmax] aspect-[297/79] relative">
-                    <Image
-                        src="/image/claimIcon.png"
-                        alt="main logo"
-                        fill
-                        style={{ objectFit: "cover" }}
-                    />
-                </div>
-            </div> : <div className="w-full flex justify-center items-center relative ">
-                <div className="w-[30vmax] sm:w-[20vmax] aspect-[297/79] relative">
-                    <Image
-                        src="/image/claimover.png"
-                        alt="main logo"
-                        fill
-                        style={{ objectFit: "cover" }}
-                    />
-                </div>
-            </div>}
 
-        </div>
+                </div>
+                {onClaim ? <div className="w-full pl-[15%] aspect-[344/60] flex justify-center items-center relative">
+                    <div className=" w-[32vmax] sm:w-[25vmax] aspect-[299/59] relative ">
+                        <Link href="/balance">
+                            <Image
+                                src="/image/ontickets.png"
+                                alt="main logo"
+                                fill
+                                style={{ objectFit: "cover" }}
+                            />
+                        </Link>
+                    </div>
+                    <div onClick={() => startTimer(10)} className=" w-[8vmax] sm:w-[6vmax] aspect-[101/84] relative right-[15%] ">
+                        <Image
+                            src="/image/claimenable.png"
+                            alt="main logo"
+                            fill
+                            style={{ objectFit: "cover" }}
+                        />
+                    </div>
+
+                </div> : <div className="w-full pl-[15%] aspect-[344/60] flex justify-center items-center relative ">
+                    <div className=" w-[32vmax] sm:w-[25vmax] aspect-[299/59] relative ">
+                        <Link href="/balance">
+                            <Image
+                                src="/image/offtickets.png"
+                                alt="main logo"
+                                fill
+                                style={{ objectFit: "cover" }}
+                            />
+                        </Link>
+                    </div>
+                    <div className=" w-[8vmax] sm:w-[6vmax] aspect-[101/84] relative right-[15%] ">
+                        <Image
+                            src="/image/claimdisable.png"
+                            alt="main logo"
+                            fill
+                            style={{ objectFit: "cover" }}
+                        />
+                    </div>
+                </div>}
+
+            </motion.div>
+        </AnimatePresence>
     );
 };
 

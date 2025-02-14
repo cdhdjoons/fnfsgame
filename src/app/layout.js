@@ -1,6 +1,10 @@
+
 import { Lilita_One } from "next/font/google";
 import "./globals.css";
+import Script from 'next/script';
 import Footer from "./components/footer";
+import ClientOnlyWrapper from "./components/clientOnlyWarpper";
+import { Analytics } from '@vercel/analytics/react';
 
 const lilita = Lilita_One({
   variable: "--font-lilita",
@@ -20,7 +24,8 @@ export default function RootLayout({ children }) {
         <div className=" w-full max-w-[500px] max-h-[1080px] bg-cover bg-no-repeat relative flex flex-col justify-between overflow-hidden"
           style={{ backgroundImage: `url(/image/BG_fnfs.png)` }}>
           {children}
-          <Footer />
+          <Analytics />
+          <ClientOnlyWrapper />
         </div>
       </body>
     </html>

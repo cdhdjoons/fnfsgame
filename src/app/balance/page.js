@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Home() {
   const [pop, setPop] = useState(false);
@@ -48,82 +49,90 @@ export default function Home() {
   }
 
   return (
-    <div className=" w-full h-full">
-      <div className=" w-full h-full max-w-[500px] relative flex flex-col justify-end pb-[10vmax] sm:pb-[3vmax] bg-cover bg-no-repeat " >
-        <div className=" bg-mainRed w-full py-[5vmax] flex justify-center items-center absolute top-0">
-          <div className="w-[30vmax] max-w-[295px] aspect-[295/183] relative ">
-            <Image
-              src="/image/fnfsLogo.png"
-              alt="main logo"
-              layout="fill"
-              objectFit="cover"
-            />
-          </div>
-          <div className=" flex justify-center gap-[5%] w-full absolute bottom-[-11%] sm:bottom-[-9%]">
-            <div className=" w-[145px] sm:w-[15vmax] aspect-[145/59] relative">
+    <AnimatePresence mode="wait">
+      <motion.div
+        className=" w-full h-full"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 1 }}
+      >
+        <div className=" w-full h-full max-w-[500px] relative flex flex-col justify-end pb-[10vmax] sm:pb-[3vmax] bg-cover bg-no-repeat " >
+          <div className=" bg-mainRed w-full py-[5vmax] flex justify-center items-center absolute top-0">
+            <div className="w-[30vmax] max-w-[295px] aspect-[295/183] relative ">
               <Image
-                src="/image/fnfs_ticket.png"
-                alt="ticketIcon"
+                src="/image/fnfsLogo.png"
+                alt="main logo"
                 layout="fill"
                 objectFit="cover"
               />
-              <p className=" absolute right-[10%] top-0 text-white text-[2.2vmax] sm:text-[2.2vmin]">Tickets</p>
-              <p className=" absolute right-[10%] bottom-0 text-white text-[2.2vmax] sm:text-[2.2vmin]">{tickets}</p>
             </div>
-            <div className=" w-[132px] sm:w-[15vmax] aspect-[132/59] relative">
+            <div className=" flex justify-center gap-[5%] w-full absolute bottom-[-11%] sm:bottom-[-9%]">
+              <div className=" w-[145px] sm:w-[15vmax] aspect-[145/59] relative">
+                <Image
+                  src="/image/fnfs_ticket.png"
+                  alt="ticketIcon"
+                  layout="fill"
+                  objectFit="cover"
+                />
+                <p className=" absolute right-[10%] top-0 text-white text-[2.2vmax] sm:text-[2.2vmin]">Tickets</p>
+                <p className=" absolute right-[10%] bottom-0 text-white text-[2.2vmax] sm:text-[2.2vmin]">{tickets}</p>
+              </div>
+              <div className=" w-[132px] sm:w-[15vmax] aspect-[132/59] relative">
+                <Image
+                  src="/image/fnfs_n2o.png"
+                  alt="meatIcon"
+                  layout="fill"
+                  objectFit="cover"
+                />
+                <p className=" absolute right-[10%] top-0 text-white text-[2.2vmax] sm:text-[2.2vmin]">N2O</p>
+                <p className=" absolute right-[10%] bottom-0 text-white text-[2.2vmax] sm:text-[2.2vmin]">{n2o}</p>
+              </div>
+            </div>
+          </div>
+          <p className="w-full text-center text-[6vmax] sm:text-[6vmin] -rotate-2
+        bg-gradient-to-r from-[#F9BC2F] via-[#FED9A5] to-[#EB9F15] bg-clip-text text-transparent [-webkit-text-stroke:1px_black] ">Get Ticket</p>
+          <div className=" w-full py-[1vmin] flex gap-3 flex-col items-center justify-center">
+            <div onClick={() => getTicket(1, 500)} className=" w-[36vmax] sm:w-[40vmin] aspect-[479/117] relative active:scale-90 transition-transform duration-200 ">
               <Image
-                src="/image/fnfs_n2o.png"
+                src="/image/fnfs_ticket1.png"
                 alt="meatIcon"
                 layout="fill"
                 objectFit="cover"
               />
-              <p className=" absolute right-[10%] top-0 text-white text-[2.2vmax] sm:text-[2.2vmin]">N2O</p>
-              <p className=" absolute right-[10%] bottom-0 text-white text-[2.2vmax] sm:text-[2.2vmin]">{n2o}</p>
+            </div>
+            <div onClick={() => getTicket(3, 1300)} className="w-[36vmax] sm:w-[40vmin] aspect-[479/117] relative active:scale-90 transition-transform duration-200 ">
+              <Image
+                src="/image/fnfs_ticket2.png"
+                alt="meatIcon"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+            <div onClick={() => getTicket(5, 2000)} className="w-[36vmax] sm:w-[40vmin] aspect-[479/117] relative active:scale-90 transition-transform duration-200 ">
+              <Image
+                src="/image/fnfs_ticket3.png"
+                alt="meatIcon"
+                layout="fill"
+                objectFit="cover"
+              />
             </div>
           </div>
-        </div>
-        <p className="w-full text-center text-[6vmax] sm:text-[6vmin] -rotate-2
-        bg-gradient-to-r from-[#F9BC2F] via-[#FED9A5] to-[#EB9F15] bg-clip-text text-transparent [-webkit-text-stroke:1px_black] ">Get Ticket</p>
-        <div className=" w-full py-[1vmin] flex gap-3 flex-col items-center justify-center">
-          <div onClick={() => getTicket(1, 500)} className=" w-[36vmax] sm:w-[40vmin] aspect-[479/117] relative active:scale-90 transition-transform duration-200 ">
-            <Image
-              src="/image/fnfs_ticket1.png"
-              alt="meatIcon"
-              layout="fill"
-              objectFit="cover"
-            />
-          </div>
-          <div onClick={() => getTicket(3, 1300)} className="w-[36vmax] sm:w-[40vmin] aspect-[479/117] relative active:scale-90 transition-transform duration-200 ">
-            <Image
-              src="/image/fnfs_ticket2.png"
-              alt="meatIcon"
-              layout="fill"
-              objectFit="cover"
-            />
-          </div>
-          <div onClick={() => getTicket(5, 2000)} className="w-[36vmax] sm:w-[40vmin] aspect-[479/117] relative active:scale-90 transition-transform duration-200 ">
-            <Image
-              src="/image/fnfs_ticket3.png"
-              alt="meatIcon"
-              layout="fill"
-              objectFit="cover"
-            />
-          </div>
-        </div>
-        {pop && (
-          <div className="popup-container fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center transition-opacity duration-300">
-            <div className="popup bg-white p-6 rounded-lg shadow-lg w-4/5 sm:w-1/3">
-              <h3 className="text-xl font-semibold text-center text-red-500">Warning</h3>
-              <p className="mt-2 text-2xl text-center text-gray-700">Need more N2O!</p>
-              <button
-                onClick={() => setPop(false)}
-                className="popup-action-btn mt-4 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600">
-                ok
-              </button>
+          {pop && (
+            <div className="popup-container fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center transition-opacity duration-300">
+              <div className="popup bg-white p-6 rounded-lg shadow-lg w-4/5 sm:w-1/3">
+                <h3 className="text-xl font-semibold text-center text-red-500">Warning</h3>
+                <p className="mt-2 text-2xl text-center text-gray-700">Need more N2O!</p>
+                <button
+                  onClick={() => setPop(false)}
+                  className="popup-action-btn mt-4 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600">
+                  ok
+                </button>
+              </div>
             </div>
-          </div>
-        )}
-      </div>
-    </div>
+          )}
+        </div>
+      </motion.div>
+    </AnimatePresence>
   );
 }
