@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from 'framer-motion';
 
 export default function ClaimTimer() {
-    const TIMER_DURATION = 21600; // 6 hours in seconds
-    
+    const TIMER_DURATION = 10; // 6 hours in seconds
+
     const [time, setTime] = useState(TIMER_DURATION); // 10초 타이머
     const [onClaim, setOnClaim] = useState(true);
     const [n2o, setN2O] = useState(0);
@@ -19,6 +19,7 @@ export default function ClaimTimer() {
     useEffect(() => {
         // localStorage에서 시작 시간 불러오기
         const storedStartTime = localStorage.getItem("timerStartTime");
+        const lastCompletionTime = localStorage.getItem("lastCompletionTime");//timer 만료 후 체크위한 값
 
         if (storedStartTime) {
             const elapsedTime = Math.floor((Date.now() - Number(storedStartTime)) / 1000);
@@ -29,7 +30,13 @@ export default function ClaimTimer() {
                 setOnClaim(false);
                 startInterval(remainingTime);
             } else {
-                localStorage.removeItem("timerStartTime"); //시간 지나면 초기화
+                // Timer has finished while away
+                if (!lastCompletionTime || lastCompletionTime !== storedStartTime) {
+                    // Only increment N2O if we haven't recorded this completion
+                    handleN2O();
+                    localStorage.setItem("lastCompletionTime", storedStartTime);
+                }
+                localStorage.removeItem("timerStartTime");
                 setOnClaim(true);
             }
         }
@@ -58,6 +65,8 @@ export default function ClaimTimer() {
                 if (prev <= 1) {
                     clearInterval(timerRef.current);
                     setOnClaim(true);
+                    const currentStartTime = localStorage.getItem("timerStartTime");
+                    localStorage.setItem("lastCompletionTime", currentStartTime);
                     localStorage.removeItem("timerStartTime");
                     if (!hasFinished.current) {
                         handleN2O();
@@ -83,7 +92,7 @@ export default function ClaimTimer() {
         const newN2O = (Number(currentN2O) || 0) + 1000; // 🔥 기존 값에 1000 더함
         localStorage.setItem("n2o", newN2O); // 🔥 업데이트된 값 저장
         setN2O(newN2O); // 🔥 상태 업데이트
-        
+
     };
 
 
@@ -97,15 +106,15 @@ export default function ClaimTimer() {
         const hours = Math.floor(seconds / 3600);
         const minutes = Math.floor((seconds % 3600) / 60);
         const remainingSeconds = seconds % 60;
-        
+
         return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-      };
-    
+    };
+
 
     // 프로그레스 바 너비 계산 (0% ~ 100%)
     // const progressWidth = `${((10 - time) / 10) * 100}%`;
     const progressWidth = onClaim ? '0%' : `${((TIMER_DURATION - time) / TIMER_DURATION) * 100}%`;
-
+    //   console.log('width!!', progressWidth);
     // 시간에 따른 색상 변화 (rgba 값으로)
     const progressColor = `rgba(245, 133, 47, 0.4)`; // 초록색에서 투명도로 변화
 

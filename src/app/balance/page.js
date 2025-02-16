@@ -3,8 +3,9 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { TICKETS_UPDATE_EVENT } from '../components/clientOnlyWarpper';
 
-export default function Home() {
+export default function Balance() {
   const [pop, setPop] = useState(false);
   const [n2o, setN2O] = useState(0);
   const [tickets, setTickets] = useState(0);
@@ -13,19 +14,19 @@ export default function Home() {
   useEffect(() => {
     // 초기 n2o 값 불러오기
     const storedN2O = localStorage.getItem("n2o");
-    if (storedN2O) {
+    if (storedN2O !== null) {
       setN2O(Number(storedN2O));
     }
     // 초기 티켓 값 불러오기
     const storedTickets = localStorage.getItem("tickets");
-    if (storedTickets) {
+    if (storedTickets !== null) {
       setTickets(Number(storedTickets));
     }
   }, []);
 
   const getTicket = (ticketNum, price) => {
     //티켓 가격보다 n2o가 작으면 팝업
-    console.log(n2o);
+    // console.log(n2o);
     if (n2o < Number(price)) {
       setPop(true);
       return;
@@ -47,6 +48,12 @@ export default function Home() {
     });
 
   }
+
+  // 상태가 변경된 후에 로컬스토리지와 이벤트 디스패치 처리
+  useEffect(() => {
+    // tickets 상태가 변경될 때만 실행
+    window.dispatchEvent(new Event(TICKETS_UPDATE_EVENT)); // footer에 ticket 값 변경 알림
+}, [tickets]);  // tickets 상태가 변경될 때만 실행
 
   return (
     <AnimatePresence mode="wait">

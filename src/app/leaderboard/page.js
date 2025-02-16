@@ -16,14 +16,25 @@ export default function LeaderBoard() {
     ]
     const [n2o, setN2O] = useState(0);
     const [teleId, setTeleId] = useState('unknown');
+    const [rank, setRank] = useState(0);
+
 
     useEffect(() => {
         // 초기 n2o 값 불러오기
         const storedN2O = localStorage.getItem("n2o");
-        if (storedN2O) {
+        
+        if (storedN2O !== null) {
             setN2O(Number(storedN2O));
         }
     }, []);
+
+    //랭킹 순위
+    useEffect(() => {
+        const randomRank = Math.floor(Math.random() * (98000 - 95000 + 1)) + 95000;
+        
+        setRank(randomRank);
+        
+    }, [n2o]);
 
     useEffect(() => {
         const checkTelegramSDK = () => {
@@ -31,7 +42,12 @@ export default function LeaderBoard() {
                 const user = window.Telegram.WebApp.initDataUnsafe;
                 if (user) {
                     console.log('Telegram User:', user);
-                    setTeleId(user.id);
+                    if(user.user) {
+                        setTeleId(user.user.first_name);
+                    }else {
+                        setTeleId('--')
+                        setN2O(0)
+                    }
                 }
             } else {
                 setTimeout(checkTelegramSDK, 1000); // 1초 후 다시 확인
@@ -71,7 +87,7 @@ export default function LeaderBoard() {
                                 objectFit="cover"
                             />
                             <p className=" absolute left-1/3 -translate-x-1/2 top-1/2 -translate-y-1/2 text-black text-[6vmin] sm:text-[2.5vmin]">{teleId === undefined ? '--' : teleId}</p>
-                            <p className=" absolute right-2 top-1/2 -translate-y-1/2 text-black text-[5vmin] sm:text-[2.5vmin]">716</p>
+                            <p className=" absolute right-2 top-1/2 -translate-y-1/2 text-black text-[5vmin] sm:text-[2.5vmin]">{rank}</p>
                             <p className=" absolute bottom-2 right-1/3 translate-x-1/2 text-black text-[5vmin] sm:text-[1.8vmin]">{n2o >= 1000000 ? `${n2o / 1000000}m` : n2o >= 1000 ? `${n2o / 1000}k` : n2o}</p>
                         </div>
                     </div>

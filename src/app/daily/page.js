@@ -9,15 +9,37 @@ import { useEffect, useState } from "react";
 export default function DailyTask() {
     //task list 버튼 관리
     const [disabledTask, setDisabledTask] = useState([true, true, true, true]);
+    //daily reward 관리
+    const [disabledDaily, setDisabledDaily] = useState([true, true]);
 
 
     useEffect(() => {
-        // localStorage에서 버튼 상태 불러오기
+        // localStorage에서 task 버튼 상태 불러오기
         const storedState = localStorage.getItem("DisabledTask");
+        // localStorage에서 daily 시간 가져오기 및 비교
+        const lastUpdateDaily = localStorage.getItem("last_update_day1"); //daily
+        const lastUpdateRetweet = localStorage.getItem("last_update_day2"); //retweet
+        const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD 형식
+
+       setDisabledDaily(prev => [
+        lastUpdateDaily === today ? false : true,
+        lastUpdateRetweet === today ? false : true
+       ]);
+
         if (storedState) {
             setDisabledTask(JSON.parse(storedState));
         }
     }, []);
+
+    //daily 클릭 시 상태 업데이트 
+    const dailyHandleClick = (index) => {
+        setDisabledDaily(prev => {
+            const newState = [...prev];
+            newState[index] = false;
+            return newState;
+        });
+        localStorage.setItem(`last_update_day${index + 1}`, new Date().toISOString().split("T")[0]); // 클릭한 날짜 저장
+    }
 
     // task list 버튼 클릭 시 상태 업데이트 및 저장
     const handleClick = (index) => {
@@ -41,26 +63,28 @@ export default function DailyTask() {
                 <div className=" w-full h-full max-w-[500px] relative flex flex-col justify-evenly items-center bg-cover bg-no-repeat " >
                     <div className="w-full h-[15%] bg-cover bg-no-repeat flex justify-center absolute top-0 " style={{ backgroundImage: `url(/image/side_bg.png)` }}></div>
                     <div className={` w-[30vmax] max-w-[500px] relative `} >
-                        {/* <Image
-                        src="/image/dailytask_title.png"
-                        alt="main logo"
-                        layout="fill"
-                        objectFit="cover"
-                    /> */}
                         <p className="w-full text-center text-[5vmax] sm:text-[4vmin] -rotate-2
         bg-gradient-to-r from-[#F92F2F] via-[#FEA5A5] to-[#EB1515] bg-clip-text text-transparent [-webkit-text-stroke:1px_black] ">Daily Task</p>
                     </div>
                     <div className=" w-full flex flex-col items-start gap-[5vmin]">
-                        <div className="w-[78vmin] sm:w-[22vmax] aspect-[518/105] relative active:scale-90 transition-transform duration-200">
+                        {disabledDaily[0] ? <div onClick={() => dailyHandleClick(0)} className="w-[78vmin] sm:w-[22vmax] aspect-[518/105] relative active:scale-90 transition-transform duration-200">
                             <Image
                                 src="/image/dailyreward1.png"
                                 alt="main logo"
                                 layout="fill"
                                 objectFit="cover"
                             />
-                        </div>
-                        <a href="/" target="_blank" rel="noopener noreferrer">
-                            <div className="w-[80vmin] sm:w-[22vmax] aspect-[520/105] relative active:scale-90 transition-transform duration-200">
+                        </div> :
+                            <div className="w-[78vmin] sm:w-[22vmax] aspect-[518/105] relative active:scale-90 transition-transform duration-200">
+                                <Image
+                                    src="/image/dailyreward1_off.png"
+                                    alt="main logo"
+                                    layout="fill"
+                                    objectFit="cover"
+                                />
+                            </div>}
+                        {disabledDaily[1] ? <a href="https://x.com/Fnfs_Official" target="_blank" rel="noopener noreferrer">
+                            <div onClick={() => dailyHandleClick(1)} className="w-[80vmin] sm:w-[22vmax] aspect-[520/105] relative active:scale-90 transition-transform duration-200">
                                 <Image
                                     src="/image/dailyreward2.png"
                                     alt="main logo"
@@ -68,7 +92,16 @@ export default function DailyTask() {
                                     objectFit="cover"
                                 />
                             </div>
-                        </a>
+                        </a> :
+                                <div className="w-[80vmin] sm:w-[22vmax] aspect-[520/105] relative active:scale-90 transition-transform duration-200">
+                                    <Image
+                                        src="/image/dailyreward2_off.png"
+                                        alt="main logo"
+                                        layout="fill"
+                                        objectFit="cover"
+                                    />
+                                </div>
+                            }
                     </div>
                     <div className="w-[30vmax] max-w-[500px] relative ">
                         <p className="w-full text-center text-[5vmax] sm:text-[4vmin] -rotate-2
