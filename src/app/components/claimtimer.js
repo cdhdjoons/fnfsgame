@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from 'framer-motion';
 
 export default function ClaimTimer() {
-    const TIMER_DURATION = 10; // 6 hours in seconds
+    const TIMER_DURATION = 21600; // 6 hours in seconds
 
     const [time, setTime] = useState(TIMER_DURATION); // 10초 타이머
     const [onClaim, setOnClaim] = useState(true);
