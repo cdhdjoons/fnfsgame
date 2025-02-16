@@ -13,6 +13,7 @@ export default function Home() {
               alt="main logo"
               fill
               style={{ objectFit: "cover" }}
+              priority
             />
           </div>
         </div>
@@ -23,6 +24,7 @@ export default function Home() {
               alt="main logo"
               fill
               style={{ objectFit: "cover" }}
+              priority
             />
           </div>
         </div>

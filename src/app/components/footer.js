@@ -28,6 +28,7 @@ export default function Footer() {
                             alt="meatIcon"
                             fill
                             style={{ objectFit: "cover" }}
+                            priority
                         />
                     </div>
                 </Link>
@@ -38,6 +39,8 @@ export default function Footer() {
                             alt="meatIcon"
                             fill
                             style={{ objectFit: "cover" }}
+                            priority
+
                         />
                     </div>
                 </Link>
@@ -48,6 +51,8 @@ export default function Footer() {
                             alt="meatIcon"
                             width={70}  // 이미지의 가로 크기 지정
                             height={70}  // 이미지의 세로 크기 지정
+                            priority
+
                         />
                     </div>
                 </Link> :
@@ -57,6 +62,8 @@ export default function Footer() {
                             alt="meatIcon"
                             width={70}  // 이미지의 가로 크기 지정
                             height={70}  // 이미지의 세로 크기 지정
+                            priority
+
                         />
                     </div>
                 }
@@ -68,6 +75,8 @@ export default function Footer() {
                             alt="meatIcon"
                             fill
                             style={{ objectFit: "cover" }}
+                            priority
+
                         />
                     </div>
                 </Link>
@@ -78,6 +87,8 @@ export default function Footer() {
                             alt="meatIcon"
                             fill
                             style={{ objectFit: "cover" }}
+                            priority
+
                         />
                     </div>
                 </Link>

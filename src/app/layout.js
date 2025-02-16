@@ -5,6 +5,7 @@ import Script from 'next/script';
 import Footer from "./components/footer";
 import ClientOnlyWrapper from "./components/clientOnlyWarpper";
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const lilita = Lilita_One({
   variable: "--font-lilita",
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
           style={{ backgroundImage: `url(/image/BG_fnfs.png)` }}>
           {children}
           <Analytics />
+          <SpeedInsights />
           <ClientOnlyWrapper />
         </div>
       </body>

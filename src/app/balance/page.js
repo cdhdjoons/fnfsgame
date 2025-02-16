@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { TICKETS_UPDATE_EVENT } from '../components/clientOnlyWarpper';
+import Alert from '@mui/material/Alert';
 
 export default function Balance() {
   const [pop, setPop] = useState(false);
@@ -29,6 +30,7 @@ export default function Balance() {
     // console.log(n2o);
     if (n2o < Number(price)) {
       setPop(true);
+      setTimeout(() => setPop(false), 1500); // 1.5초 후 복사 메시지 초기화
       return;
     }
     //가격이 성립하면 n2o 가격만큼 줄이고, 티켓 갯수만큼 늘어남(로컬스토리지, state 모두 업뎃)
@@ -126,17 +128,18 @@ export default function Balance() {
             </div>
           </div>
           {pop && (
-            <div className="popup-container fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center transition-opacity duration-300">
-              <div className="popup bg-white p-6 rounded-lg shadow-lg w-4/5 sm:w-1/3">
-                <h3 className="text-xl font-semibold text-center text-red-500">Warning</h3>
-                <p className="mt-2 text-2xl text-center text-gray-700">Need more N2O!</p>
-                <button
-                  onClick={() => setPop(false)}
-                  className="popup-action-btn mt-4 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600">
-                  ok
-                </button>
-              </div>
-            </div>
+            // <div className="popup-container fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center transition-opacity duration-300">
+            //   <div className="popup bg-white p-6 rounded-lg shadow-lg w-4/5 sm:w-1/3">
+            //     <h3 className="text-xl font-semibold text-center text-red-500">Warning</h3>
+            //     <p className="mt-2 text-2xl text-center text-gray-700">Need more N2O!</p>
+            //     <button
+            //       onClick={() => setPop(false)}
+            //       className="popup-action-btn mt-4 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600">
+            //       ok
+            //     </button>
+            //   </div>
+            // </div>
+            <div className=" absolute top-[10px] left-1/2 -translate-x-1/2 z-[999] "><Alert severity="error">Need more N2O.</Alert></div>
           )}
         </div>
       </motion.div>
