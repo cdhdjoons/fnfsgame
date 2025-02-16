@@ -96,12 +96,7 @@ export default function ClaimTimer() {
     };
 
 
-    // 초를 "00:00:XX" 형식으로 변환
-    // const formatTime = (seconds) => {
-    //     const min = Math.floor(seconds / 60);
-    //     const sec = seconds % 60;
-    //     return `00:${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-    // };
+    
     const formatTime = (seconds) => {
         const hours = Math.floor(seconds / 3600);
         const minutes = Math.floor((seconds % 3600) / 60);
@@ -112,11 +107,9 @@ export default function ClaimTimer() {
 
 
     // 프로그레스 바 너비 계산 (0% ~ 100%)
-    // const progressWidth = `${((10 - time) / 10) * 100}%`;
+    
     const progressWidth = onClaim ? '0%' : `${((TIMER_DURATION - time) / TIMER_DURATION) * 100}%`;
-    //   console.log('width!!', progressWidth);
-    // 시간에 따른 색상 변화 (rgba 값으로)
-    const progressColor = `rgba(245, 133, 47, 0.4)`; // 초록색에서 투명도로 변화
+    
 
     return (
         <AnimatePresence mode="wait">

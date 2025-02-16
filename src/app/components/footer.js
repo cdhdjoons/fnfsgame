@@ -22,22 +22,22 @@ export default function Footer() {
         <div className="  w-full max-w-[500px] h-[102px] flex justify-center items-center ">
             <div className=" w-full flex justify-evenly items-center bg-footerBg py-2">
                 <Link href="/daily">
-                    <div className="w-[60px] h-[61px] relative active:scale-90 transition-transform duration-200 ">
+                    <div className="w-[15vmin] sm:w-[6vmin] aspect-[82/82] relative active:scale-90 transition-transform duration-200 ">
                         <Image
                             src="/image/menu-task.png"
                             alt="meatIcon"
-                            width={60}  // 이미지의 가로 크기 지정
-                            height={61}  // 이미지의 세로 크기 지정
+                            fill
+                            style={{ objectFit: "cover" }}
                         />
                     </div>
                 </Link>
                 <Link href="/">
-                    <div className="w-[60px] h-[61px] relative active:scale-90 transition-transform duration-200">
+                    <div className="w-[15vmin] sm:w-[6vmin] aspect-[82/82] relative active:scale-90 transition-transform duration-200">
                         <Image
                             src="/image/menu-home.png"
                             alt="meatIcon"
-                            width={60}  // 이미지의 가로 크기 지정
-                            height={61}  // 이미지의 세로 크기 지정
+                            fill
+                            style={{ objectFit: "cover" }}
                         />
                     </div>
                 </Link>
@@ -62,22 +62,22 @@ export default function Footer() {
                 }
 
                 <Link href="/invite">
-                    <div className="w-[60px] h-[61px] relative active:scale-90 transition-transform duration-200">
+                    <div className="w-[15vmin] sm:w-[6vmin] aspect-[82/82] relative active:scale-90 transition-transform duration-200">
                         <Image
                             src="/image/menu-invite.png"
                             alt="meatIcon"
-                            width={60}  // 이미지의 가로 크기 지정
-                            height={61}  // 이미지의 세로 크기 지정
+                            fill
+                            style={{ objectFit: "cover" }}
                         />
                     </div>
                 </Link>
                 <Link href="/leaderboard">
-                    <div className="w-[60px] h-[61px] relative active:scale-90 transition-transform duration-200">
+                    <div className="w-[15vmin] sm:w-[6vmin] aspect-[82/82] relative active:scale-90 transition-transform duration-200">
                         <Image
                             src="/image/menu-rank.png"
                             alt="meatIcon"
-                            width={60}  // 이미지의 가로 크기 지정
-                            height={61}  // 이미지의 세로 크기 지정
+                            fill
+                            style={{ objectFit: "cover" }}
                         />
                     </div>
                 </Link>

@@ -32,13 +32,15 @@ export default function DailyTask() {
     }, []);
 
     //daily 클릭 시 상태 업데이트 
-    const dailyHandleClick = (index) => {
+    const dailyHandleClick = (index, reward) => {
+        const nowN2O = Number(localStorage.getItem("n2o"));
         setDisabledDaily(prev => {
             const newState = [...prev];
             newState[index] = false;
             return newState;
         });
         localStorage.setItem(`last_update_day${index + 1}`, new Date().toISOString().split("T")[0]); // 클릭한 날짜 저장
+        localStorage.setItem("n2o", nowN2O + reward );
     }
 
     // task list 버튼 클릭 시 상태 업데이트 및 저장
@@ -67,7 +69,7 @@ export default function DailyTask() {
         bg-gradient-to-r from-[#F92F2F] via-[#FEA5A5] to-[#EB1515] bg-clip-text text-transparent [-webkit-text-stroke:1px_black] ">Daily Task</p>
                     </div>
                     <div className=" w-full flex flex-col items-start gap-[5vmin]">
-                        {disabledDaily[0] ? <div onClick={() => dailyHandleClick(0)} className="w-[78vmin] sm:w-[22vmax] aspect-[518/105] relative active:scale-90 transition-transform duration-200">
+                        {disabledDaily[0] ? <div onClick={() => dailyHandleClick(0, 100)} className="w-[78vmin] sm:w-[22vmax] aspect-[518/105] relative active:scale-90 transition-transform duration-200">
                             <Image
                                 src="/image/dailyreward1.png"
                                 alt="main logo"
@@ -84,7 +86,7 @@ export default function DailyTask() {
                                 />
                             </div>}
                         {disabledDaily[1] ? <a href="https://x.com/Fnfs_Official" target="_blank" rel="noopener noreferrer">
-                            <div onClick={() => dailyHandleClick(1)} className="w-[80vmin] sm:w-[22vmax] aspect-[520/105] relative active:scale-90 transition-transform duration-200">
+                            <div onClick={() => dailyHandleClick(1, 1000)} className="w-[80vmin] sm:w-[22vmax] aspect-[520/105] relative active:scale-90 transition-transform duration-200">
                                 <Image
                                     src="/image/dailyreward2.png"
                                     alt="main logo"
