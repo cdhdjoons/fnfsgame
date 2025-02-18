@@ -21,10 +21,10 @@ export default function DailyTask() {
         const lastUpdateRetweet = localStorage.getItem("last_update_day2"); //retweet
         const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD 형식
 
-       setDisabledDaily(prev => [
-        lastUpdateDaily === today ? false : true,
-        lastUpdateRetweet === today ? false : true
-       ]);
+        setDisabledDaily(prev => [
+            lastUpdateDaily === today ? false : true,
+            lastUpdateRetweet === today ? false : true
+        ]);
 
         if (storedState) {
             setDisabledTask(JSON.parse(storedState));
@@ -40,15 +40,17 @@ export default function DailyTask() {
             return newState;
         });
         localStorage.setItem(`last_update_day${index + 1}`, new Date().toISOString().split("T")[0]); // 클릭한 날짜 저장
-        localStorage.setItem("n2o", nowN2O + reward );
+        localStorage.setItem("n2o", nowN2O + reward);
     }
 
     // task list 버튼 클릭 시 상태 업데이트 및 저장
-    const handleClick = (index) => {
+    const handleClick = (index, reward) => {
         const newState = [...disabledTask];
+        const nowN2O = Number(localStorage.getItem("n2o"));
         newState[index] = false; // 클릭된 버튼 비활성화
         setDisabledTask(newState);
         localStorage.setItem("DisabledTask", JSON.stringify(newState)); // localStorage에 저장
+        localStorage.setItem("n2o", nowN2O + reward);
     };
 
     //task list 링크 
@@ -95,15 +97,15 @@ export default function DailyTask() {
                                 />
                             </div>
                         </a> :
-                                <div className="w-[80vmin] sm:w-[22vmax] aspect-[520/105] relative active:scale-90 transition-transform duration-200">
-                                    <Image
-                                        src="/image/dailyreward2_off.png"
-                                        alt="main logo"
-                                        layout="fill"
-                                        objectFit="cover"
-                                    />
-                                </div>
-                            }
+                            <div className="w-[80vmin] sm:w-[22vmax] aspect-[520/105] relative active:scale-90 transition-transform duration-200">
+                                <Image
+                                    src="/image/dailyreward2_off.png"
+                                    alt="main logo"
+                                    layout="fill"
+                                    objectFit="cover"
+                                />
+                            </div>
+                        }
                     </div>
                     <div className="w-[30vmax] max-w-[500px] relative ">
                         <p className="w-full text-center text-[5vmax] sm:text-[4vmin] -rotate-2
@@ -112,20 +114,36 @@ export default function DailyTask() {
                     <div className=" w-full flex flex-col items-start gap-[5vmin]">
                         {[...Array(4)].map((_, index) => (
                             disabledTask[index] ? (
-                                links[index] !== "#" ? ( // 2번째 버튼은 <a> 태그 없이 렌더링
-                                    <a key={index} href={links[index]} target="_blank" rel="noopener noreferrer">
-                                        <div
-                                            onClick={() => handleClick(index)}
-                                            className="w-[79vmin] sm:w-[23vmax] aspect-[520/108] relative active:scale-90 transition-transform duration-200"
-                                        >
-                                            <Image
-                                                src={`/image/follow${index + 1}.png`}
-                                                alt={`button ${index + 1}`}
-                                                layout="fill"
-                                                objectFit="cover"
-                                            />
-                                        </div>
-                                    </a>
+                                links[index] !== "#" ? (  // 2번째 버튼은 <a> 태그 없이 렌더링
+                                    index !== 3 ? (
+                                        <a key={index} href={links[index]} target="_blank" rel="noopener noreferrer">
+                                            <div
+                                                onClick={() => handleClick(index, 1000)}
+                                                className="w-[79vmin] sm:w-[23vmax] aspect-[520/108] relative active:scale-90 transition-transform duration-200"
+                                            >
+                                                <Image
+                                                    src={`/image/follow${index + 1}.png`}
+                                                    alt={`button ${index + 1}`}
+                                                    layout="fill"
+                                                    objectFit="cover"
+                                                />
+                                            </div>
+                                        </a>
+                                    ) : (
+                                        <Link key={index} href={links[index]}>
+                                            <div
+                                                onClick={() => handleClick(index, 5000)}
+                                                className="w-[79vmin] sm:w-[23vmax] aspect-[520/108] relative active:scale-90 transition-transform duration-200"
+                                            >
+                                                <Image
+                                                    src={`/image/follow${index + 1}.png`}
+                                                    alt={`button ${index + 1}`}
+                                                    layout="fill"
+                                                    objectFit="cover"
+                                                />
+                                            </div>
+                                        </Link>
+                                    )
                                 ) : (
                                     <div
                                         key={index}
