@@ -53,7 +53,7 @@ export default function Invite() {
                         <p className=" text-white text-[3.3vmin] sm:text-[2.2vmin]">Get a play pass for each friends</p>
                     </div>
                     <div className="flex flex-col gap-0 items-center">
-                        <p className=" text-white text-[4vmin] sm:text-[3vmin]">Your friends join YBDBD</p>
+                        <p className=" text-white text-[4vmin] sm:text-[3vmin]">Your friends join FNFS</p>
                         <p className=" text-white text-[3.3vmin] sm:text-[2.2vmin]">Get a play pass for each friends</p>
                     </div>
                     <p className=" text-white text-[5vmin] sm:text-[3.3vmin]">1 friends / 2000 N2O</p>
